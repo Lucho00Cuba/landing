@@ -1,0 +1,105 @@
+---
+import TestimonialItem from "@components/TestimonialItem.astro";
+import { profile } from '../config';
+
+const testimonials = profile.testimonials
+---
+
+<section class="testimonials">
+  <h3 class="h3 testimonials-title">Testimonials</h3>
+  <ul class="testimonials-list has-scrollbar">
+    {testimonials.map((testimonial) => <TestimonialItem {...testimonial} />)}
+  </ul>
+</section>
+
+{
+  testimonials.map((testimonial) => (
+    <div class="modal-container" data-modal-container>
+      <div class="overlay" data-overlay />
+      <section class="testimonials-modal">
+        <button class="modal-close-btn" data-modal-close-btn>
+          <ion-icon name="close-outline" />
+        </button>
+        <div class="modal-img-wrapper">
+          <figure class="modal-avatar-box">
+            <img
+              src={testimonial.avatar}
+              alt={testimonial.name}
+              width="80"
+              data-modal-img
+            />
+          </figure>
+          <img src="/icon-quote.svg" alt="quote icon" />
+        </div>
+        <div class="modal-content">
+          <h4 class="h3 modal-title" data-modal-title>
+            {testimonial.name}
+          </h4>
+          <time datetime={testimonial.date}>
+            {new Date(testimonial.date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </time>
+          <div data-modal-text>
+            <p>{testimonial.text}</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  ))
+}
+
+<script type="module">
+  document.addEventListener("DOMContentLoaded", () => {
+    // testimonials variables
+    const testimonialsItem = document.querySelectorAll(
+      "[data-testimonials-item]"
+    );
+    const modalContainer = document.querySelector("[data-modal-container]");
+    const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
+    const overlay = document.querySelector("[data-overlay]");
+
+    // modal variable
+    const modalImg = document.querySelector("[data-modal-img]");
+    const modalTitle = document.querySelector("[data-modal-title]");
+    const modalText = document.querySelector("[data-modal-text]");
+
+    // modal toggle function
+    const testimonialsModalFunc = function () {
+      modalContainer.classList.toggle("active");
+      overlay.classList.toggle("active");
+    };
+
+    if (
+      testimonialsItem.length === 0 ||
+      modalContainer.length === 0 ||
+      modalCloseBtn.length === 0 ||
+      overlay.length === 0
+    ) {
+      console.error(
+        "No testimonials items, modal container, modal close button, or overlay were found."
+      );
+      return;
+    }
+
+    testimonialsItem.forEach((item, _) => {
+      item.addEventListener("click", function () {
+        modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
+        modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
+        modalTitle.innerHTML = this.querySelector(
+          "[data-testimonials-title]"
+        ).innerHTML;
+        modalText.innerHTML = this.querySelector(
+          "[data-testimonials-text]"
+        ).innerHTML;
+
+        testimonialsModalFunc();
+      });
+    });
+
+    modalCloseBtn.addEventListener("click", testimonialsModalFunc);
+    overlay.addEventListener("click", testimonialsModalFunc);
+  });
+</script>

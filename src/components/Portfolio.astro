@@ -1,0 +1,89 @@
+---
+import ProjectItem from "@components/ProjectItem.astro";
+import { profile } from "../config";
+
+const categories = profile.portfolio.categories;
+const projects = profile.portfolio.projects;
+---
+
+<article class="portfolio" data-page="portfolio">
+  <header>
+    <h2 class="h2 article-title">Portfolio</h2>
+  </header>
+
+  <section class="projects">
+    <ul class="filter-list">
+      {
+        categories.map((category) => (
+          <li class="filter-item">
+            <button class={category === "All" ? "active" : ""} data-filter-btn>
+              {category}
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="filter-select-box">
+      <button class="filter-select" data-select>
+        <div class="select-value" data-selecct-value>Select category</div>
+        <div class="select-icon">
+          <ion-icon name="chevron-down"></ion-icon>
+        </div>
+      </button>
+
+      <ul class="select-list">
+        {
+          categories.map((category) => (
+            <li class="select-item">
+              <button data-select-item>{category}</button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <ul class="project-list">
+      {projects.map((project) => <ProjectItem {...project} />)}
+    </ul>
+  </section>
+</article>
+
+<script>
+  // filter variables
+  document.addEventListener("DOMContentLoaded", function () {
+    const filterBtns = document.querySelectorAll("[data-filter-btn]");
+    const filterItems = document.querySelectorAll("[data-filter-item]");
+    const selectValue = document.querySelector("[data-selecct-value]");
+    const selectItems = document.querySelectorAll("[data-select-item]");
+
+    function filterProjects(selectedValue) {
+      filterItems.forEach((item) => {
+        const category = item.dataset.category.toLowerCase();
+        if (selectedValue === "all" || category === selectedValue) {
+          item.classList.add("active");
+        } else {
+          item.classList.remove("active");
+        }
+      });
+    }
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        filterBtns.forEach((b) => b.classList.remove("active"));
+        this.classList.add("active");
+
+        const selectedValue = this.innerText.toLowerCase();
+        filterProjects(selectedValue);
+      });
+    });
+
+    selectItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        const selectedValue = this.innerText.toLowerCase();
+        selectValue.innerText = this.innerText;
+        filterProjects(selectedValue);
+      });
+    });
+  });
+</script>

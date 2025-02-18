@@ -1,0 +1,22 @@
+---
+import Layout from "@layouts/Layout.astro";
+import About from "@components/About.astro";
+import Resume from "@components/Resume.astro";
+import Portfolio from "@components/Portfolio.astro";
+import Blog from "@components/Blog.astro";
+import Contact from "@components/Contact.astro";
+import Navbar from "@components/Navbar.astro";
+import Sidebar from "@components/Sidebar.astro";
+---
+
+<Layout title="JustMe">
+  <Sidebar />
+  <div class="main-content">
+    <Navbar />
+    <About />
+    <Resume />
+    <Portfolio />
+    <Blog />
+    <Contact />
+  </div>
+</Layout>

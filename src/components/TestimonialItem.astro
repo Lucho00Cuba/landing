@@ -1,0 +1,26 @@
+---
+interface Props {
+  name: string;
+  avatar: string;
+  text: string;
+}
+
+const { name, avatar, text } = Astro.props;
+---
+
+<li class="testimonials-item">
+  <div class="content-card" data-testimonials-item>
+    <figure class="testimonials-avatar-box">
+      <img
+        src={avatar || "/placeholder.svg"}
+        alt={name}
+        width="60"
+        data-testimonials-avatar
+      />
+    </figure>
+    <h4 class="h4 testimonials-item-title" data-testimonials-title>{name}</h4>
+    <div class="testimonials-text" data-testimonials-text>
+      <p>{text}</p>
+    </div>
+  </div>
+</li>

@@ -1,0 +1,24 @@
+---
+const icons = import.meta.glob("../icons/*.astro", { eager: true });
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+const { icon, title, description } = Astro.props;
+
+const normalizedIcon = `../icons/${icon}.astro`;
+const Icon = icons[normalizedIcon]?.default || icons["../icons/monitoring.astro"].default;
+---
+
+<li class="service-item">
+  <div class="service-icon-box">
+    <Icon />
+  </div>
+  <div class="service-content-box">
+    <h4 class="h4 service-item-title">{title}</h4>
+    <p class="service-item-text">{description}</p>
+  </div>
+</li>

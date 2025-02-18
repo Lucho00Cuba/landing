@@ -1,0 +1,18 @@
+---
+import TimelineSection from '@components/TimelineSection.astro';
+import SkillsSection from '@components/SkillsSection.astro';
+import { profile } from '../config';
+
+const education = profile.education
+const experience = profile.experience
+const skills = profile.skills
+---
+<article class="resume" data-page="resume">
+  <header>
+    <h2 class="h2 article-title">Resume</h2>
+  </header>
+
+  <TimelineSection title="Education" icon="book-outline" items={education} />
+  <TimelineSection title="Experience" icon="book-outline" items={experience} />
+  <SkillsSection skills={skills} />
+</article>

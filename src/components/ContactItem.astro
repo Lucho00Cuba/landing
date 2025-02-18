@@ -1,0 +1,28 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  value: string;
+  link?: string;
+}
+
+const { icon, title, value, link } = Astro.props;
+---
+
+<li class="contact-item">
+  <div class="icon-box">
+    <ion-icon name={icon}></ion-icon>
+  </div>
+  <div class="contact-info">
+    <p class="contact-title">{title}</p>
+    {
+      link ? (
+        <a href={link} class="contact-link">
+          {value}
+        </a>
+      ) : (
+        <time datetime={value}>{value}</time>
+      )
+    }
+  </div>
+</li>
